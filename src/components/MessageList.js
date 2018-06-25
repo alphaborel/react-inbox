@@ -7,10 +7,14 @@ class MessageList extends Component {
   render() {
     return (
       <div className="row">
-      {this.props.mess.map((passdown) => {
+      {this.props.message.map((message) => {
         return <Message
-        key={passdown.id}
-        everything={passdown}
+        key={message.id}
+        message={message}
+        //the event listeners
+        toggleRead={this.props.toggleRead}
+        toggleStarred={this.props.toggleStarred}
+        toggleSelected={this.props.toggleSelected}
         />
       })}
       </div>

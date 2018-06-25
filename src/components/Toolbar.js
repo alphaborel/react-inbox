@@ -2,12 +2,6 @@ import React, { Component } from 'react';
 
 class Toolbar extends Component {
 
-  addLabel = () => {
-    //get the value from the dropdown list
-    let label = document.querySelector('#addLabel').value
-    //pass that value into our event function
-    this.props.addLabel(label)
-  }
 
   render() {
     return (
@@ -30,14 +24,14 @@ class Toolbar extends Component {
         Mark As Unread
       </button>
 
-      <select className="form-control label-select" onChange={this.addLabel} id="addLabel">
+      <select className="form-control label-select" id="addLabel">
         <option>Apply label</option>
         <option value="dev">dev</option>
         <option value="personal">personal</option>
         <option value="gschool">gschool</option>
       </select>
 
-      <select className="form-control label-select">
+      <select className="form-control label-select"id="removeLabel">
         <option>Remove label</option>
         <option value="dev">dev</option>
         <option value="personal">personal</option>

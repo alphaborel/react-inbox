@@ -6,10 +6,9 @@ import MessageList from './components/MessageList';
 
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      inbox: [
+
+  state = {
+      messages: [
   {
     "id": 1,
     "subject": "You can't input the protocol without calculating the mobile RSS protocol!",
@@ -68,34 +67,65 @@ class App extends Component {
     "starred": true,
     "labels": []
   }
-]};
+  ]
 } // state data
 
-addLabel = (label) => {
-  if (label !== 'Apply label'){
-    const inbox = [...this.state.inbox]
-    for (let i = 0; i< inbox.length; i++){
-      if(inbox[i]['labels'] === true) {
-        if (inbox[i]['labels'].includes(label) !== true){
-          inbox[i]['labels'].push(label)
-        }
-      }
-    }
-    this.setState({inbox: inbox})
+
+toggleRead = (selectedMessage) => {
+  //filter out messages not selected
+  let otherMessages = this.state.messages.filter(message => selectedMessage.id !== message.id)
+  let changedMessage = {
+    id: selectedMessage.id,
+    subject: selectedMessage.subject,
+    read: !selectedMessage.read,
+    starred: selectedMessage.starred,
+    labels: selectedMessage.labels
   }
+  this.setState({ messages: otherMessages.concat(changedMessage).sort((a, b) => a.id - b.id)})
 }
 
+toggleStarred = (selectedMessage) => {
+  //filter out messages not selected
+  let otherMessages = this.state.messages.filter(message => selectedMessage.id !== message.id)
+  let changedMessage = {
+    id: selectedMessage.id,
+    subject: selectedMessage.subject,
+    read: selectedMessage.read,
+    starred: !selectedMessage.starred,
+    labels: selectedMessage.labels
+  }
+  this.setState({ messages: otherMessages.concat(changedMessage).sort((a, b) => a.id - b.id)})
+}
 
+toggleSelected = (selectedMessage) => {
+  //filter out messages not selected
+  let otherMessages = this.state.messages.filter(message => selectedMessage.id !== message.id)
+  let changedMessage = {
+    id: selectedMessage.id,
+    subject: selectedMessage.subject,
+    read: selectedMessage.read,
+    starred: selectedMessage.starred,
+    labels: selectedMessage.labels,
+    selected: !selectedMessage.selected || false
+  }
+  this.setState({ messages: otherMessages.concat(changedMessage).sort((a, b) => a.id - b.id)})
+}
 
   render() {
     return (
       <div className="App">
+
         <Toolbar
-        addLabel={this.addLabel}
+        //event listeners
+        messages={this.state.messages}
         />
+
         <MessageList
-        mess={this.state.inbox}
-        tags={this.state.labels}
+        message={this.state.messages}
+        //event listeners
+        toggleRead={this.toggleRead}
+        toggleStarred={this.toggleStarred}
+        toggleSelected={this.toggleSelected}
         />
       </div>
     );
