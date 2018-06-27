@@ -110,14 +110,49 @@ toggleSelected = (selectedMessage) => {
   }
   this.setState({ messages: otherMessages.concat(changedMessage).sort((a, b) => a.id - b.id)})
 }
+selectButtonFunc = (type) => {
+  this.setState({
+    messages: !this.state.messages.some(msg => msg.selected)
+  })
+}
+toolbarCopyCurrentState = () => {
+  return this.state.messages.map((message) => {
+    return {...message};
+  })
+}
+
+selectButtonFunc = (type) => {
+  let messagesStateCopy = this.toolbarCopyCurrentState();
+
+  if(type.includes('check')) {
+    messagesStateCopy = this.state.messages.map(message => {
+      message.selected = false;
+      return message;
+    })
+  } else {
+    messagesStateCopy = this.state.messages.map(message => {
+      message.selected = true;
+      return message;
+  })
+  this.setState({ messages: messagesStateCopy });
+}}
+
+deleteMessages = () => {
+  let newState = this.state.messages.filter(msg => !msg.selected);
+  this.setState( {messages: newState} )
+}
 
   render() {
+    let numOfSelectedMsgs = this.state.messages.filter(msg => msg.selected).length
     return (
       <div className="App">
 
         <Toolbar
         //event listeners
         messages={this.state.messages}
+        numOfSelectedMsgs={numOfSelectedMsgs}
+        selectButtonFunc={this.selectButtonFunc}
+        deleteMessages={this.deleteMessages}
         />
 
         <MessageList

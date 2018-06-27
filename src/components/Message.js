@@ -2,7 +2,7 @@ import React from 'react';
 
 
 const Message = ({ message, toggleRead, toggleStarred, toggleSelected }) => {
-  let labelList = message.leabels.map(label => <span slass="label label-warning">{label}</span>)
+  let labelList = message.labels.map(label => <span slass="label label-warning">{label}</span>)
     return (
       <div className={`row message ${message.read ? 'read' : 'unread'} ${message.selected ? 'selected' : ''}`} >
         <div className="col-xs-1">
